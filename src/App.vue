@@ -1,13 +1,15 @@
 <template>
   <div>
-    <h1>hi</h1>
+    <Login/>
   </div>
 </template>
 
 <script>
-export default {
+  import Login from "./Login";
+
+  export default {
   name: 'App',
+  components: { Login },
 }
 </script>
 
-<style></style>
