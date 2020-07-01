@@ -11,6 +11,7 @@
     <div class="action">
       <button @click="submit">Submit</button>
     </div>
+    <p class="err-log">{{ errLog }}</p>
   </div>
 </template>
 <script>
@@ -22,6 +23,7 @@ export default {
     return {
       username: '',
       password: '',
+      errLog: '',
     }
   },
   methods: {
@@ -29,15 +31,21 @@ export default {
       const instance = axios.create({
         baseURL: 'http://localhost:4000',
         timeout: 1000,
-        headers: {'Content-Type': 'application/json;charset=UTF-8'}
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       })
 
-      const result = await instance.post('login', {
-        username: this.username,
-        password: this.password,
-      })
+      try {
+        const result = await instance.post('login', {
+          username: this.username,
+          password: this.password,
+        })
 
-      console.log(result)
+        this.errLog = ''
+        // this.$emit('update:token', result.data.token)
+        console.log(result.data.token);
+      } catch (e) {
+        this.errLog = e.response.data.error
+      }
     },
   },
 }
@@ -46,5 +54,8 @@ export default {
 <style scoped>
 .action {
   margin-top: 20px;
+}
+.err-log {
+  color: tomato;
 }
 </style>
