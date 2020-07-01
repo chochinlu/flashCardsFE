@@ -16,6 +16,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -23,31 +24,35 @@ export default {
     return {
       username: '',
       password: '',
-      errLog: '',
+      errLog: ''
     }
   },
   methods: {
+    ...mapActions(['increment']),
     async submit() {
+      this.increment()
+      console.log(this.$store.state.count)
+
       const instance = axios.create({
         baseURL: 'http://localhost:4000',
         timeout: 1000,
-        headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+        headers: { 'Content-Type': 'application/json;charset=UTF-8' }
       })
 
       try {
         const result = await instance.post('login', {
           username: this.username,
-          password: this.password,
+          password: this.password
         })
 
         this.errLog = ''
-        // this.$emit('update:token', result.data.token)
-        console.log(result.data.token);
+        console.log(result.data.token)
+        localStorage.setItem('token', result.data.token)
       } catch (e) {
         this.errLog = e.response.data.error
       }
-    },
-  },
+    }
+  }
 }
 </script>
 
