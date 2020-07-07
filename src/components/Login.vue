@@ -1,13 +1,25 @@
 <template>
   <div class="login">
-    <div>
-      <p>username:</p>
-      <input type="text" v-model="username" />
-    </div>
-    <div>
-      <p>password:</p>
-      <input type="password" v-model="password" />
-    </div>
+    <form form autocomplete="off">
+      <div>
+        <p>User Name:</p>
+        <input
+          class="form-input"
+          autocomplete="false"
+          type="text"
+          v-model="username"
+        />
+      </div>
+      <div>
+        <p>Password:</p>
+        <input
+          class="form-input"
+          autocomplete="false"
+          type="password"
+          v-model="password"
+        />
+      </div>
+    </form>
     <div class="action">
       <button @click="submit">Submit</button>
     </div>
@@ -18,14 +30,16 @@
 import axios from 'axios'
 import { mapActions } from 'vuex'
 
+const oriData = {
+  username: '',
+  password: '',
+  errLog: ''
+}
+
 export default {
   name: 'Login',
   data() {
-    return {
-      username: '',
-      password: '',
-      errLog: ''
-    }
+    return { ...oriData }
   },
   methods: {
     ...mapActions(['increment']),
@@ -45,9 +59,13 @@ export default {
           password: this.password
         })
 
-        this.errLog = ''
-        console.log(result.data.token)
         localStorage.setItem('token', result.data.token)
+
+        this.username = ''
+        this.password = ''
+        this.errLog = ''
+
+        this.$router.push('/')
       } catch (e) {
         this.errLog = e.response.data.error
       }
@@ -57,6 +75,12 @@ export default {
 </script>
 
 <style scoped>
+.form-input {
+  padding: 5px;
+  background-color: burlywood;
+  border: none;
+  outline: none;
+}
 .action {
   margin-top: 20px;
 }

@@ -3,8 +3,13 @@
 </template>
 
 <script>
-
 export default {
   name: 'App'
 }
 </script>
+
+<style>
+body {
+  background-color: aliceblue;
+}
+</style>
