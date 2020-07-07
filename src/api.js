@@ -10,3 +10,6 @@ export function login({ username, password }) {
   return instance.post('login', { username, password })
 }
 
+export function getAllCards() {
+  return instance.get('flash_card')
+}
