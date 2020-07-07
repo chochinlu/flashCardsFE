@@ -27,8 +27,8 @@
   </div>
 </template>
 <script>
-import axios from 'axios'
 import { mapActions } from 'vuex'
+import { login } from '../api'
 
 const oriData = {
   username: '',
@@ -47,14 +47,8 @@ export default {
       this.increment()
       console.log(this.$store.state.count)
 
-      const instance = axios.create({
-        baseURL: 'http://localhost:4000',
-        timeout: 1000,
-        headers: { 'Content-Type': 'application/json;charset=UTF-8' }
-      })
-
       try {
-        const result = await instance.post('login', {
+        const result = await login({
           username: this.username,
           password: this.password
         })
